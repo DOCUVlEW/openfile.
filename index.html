@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Google Drive - Secure Document Access</title>
     <!-- Google Fonts & Material Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
@@ -24,7 +24,6 @@
             padding: 20px;
         }
 
-        /* Main card - Google Drive style */
         .drive-card {
             background: white;
             border-radius: 28px;
@@ -35,7 +34,6 @@
             transition: all 0.2s ease;
         }
 
-        /* Google Drive header */
         .drive-header {
             display: flex;
             align-items: center;
@@ -58,7 +56,6 @@
             font-weight: 700;
         }
 
-        /* Form styles */
         .form-group {
             margin-bottom: 24px;
         }
@@ -101,7 +98,6 @@
             border-color: #bdc1c6;
         }
 
-        /* Primary button */
         .btn-primary {
             background: #1a73e8;
             color: white;
@@ -124,27 +120,7 @@
             background: #1765cc;
             box-shadow: 0 1px 3px rgba(0,0,0,0.12);
         }
-        .btn-secondary {
-            background: #f1f3f4;
-            color: #1a73e8;
-            border: none;
-            width: 100%;
-            padding: 12px;
-            font-size: 14px;
-            font-weight: 500;
-            border-radius: 28px;
-            cursor: pointer;
-            margin-top: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-        .btn-secondary:hover {
-            background: #e8eaed;
-        }
 
-        /* Status message */
         .status-badge {
             margin-top: 20px;
             font-size: 13px;
@@ -161,28 +137,22 @@
         .status-badge.show {
             display: flex;
         }
-
-        /* Bookmarklet section - clean & subtle */
-        .bookmarklet-section {
-            margin-top: 32px;
-            padding-top: 24px;
-            border-top: 1px solid #ecedef;
-        }
-        .bookmarklet-section h4 {
-            font-size: 14px;
-            font-weight: 500;
-            color: #202124;
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .drag-area {
-            background: #f8f9fa;
-            border-radius: 20px;
-            padding: 16px;
+        .footer-note {
             text-align: center;
-            border: 1px dashed #dadce0;
+            font-size: 11px;
+            color: #9aa0a6;
+            margin-top: 32px;
+        }
+        .step-guide {
+            background: #fef7e0;
+            border-radius: 16px;
+            padding: 14px;
+            margin-top: 16px;
+            font-size: 13px;
+            color: #b06000;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
         }
         .bookmarklet-link {
             display: inline-flex;
@@ -203,31 +173,6 @@
         .bookmarklet-link:hover {
             background: #e8f0fe;
             border-color: #1a73e8;
-        }
-        .helper-text {
-            font-size: 12px;
-            color: #5f6368;
-            margin-top: 12px;
-        }
-        .step-guide {
-            background: #fef7e0;
-            border-radius: 16px;
-            padding: 14px;
-            margin-top: 16px;
-            font-size: 13px;
-            color: #b06000;
-            display: flex;
-            gap: 12px;
-            align-items: flex-start;
-        }
-        .step-guide span {
-            font-weight: 600;
-        }
-        .footer-note {
-            text-align: center;
-            font-size: 11px;
-            color: #9aa0a6;
-            margin-top: 32px;
         }
     </style>
 </head>
@@ -255,24 +200,18 @@
         <span class="material-symbols-outlined">check_circle</span>
         <span id="statusText"></span>
     </div>
-
-    <div class="bookmarklet-section">
-        <h4><span class="material-symbols-outlined">extension</span> One‑click automation</h4>
-        <div class="drag-area">
-            <p style="margin-bottom: 12px; font-size: 14px;">📌 After you solve the CAPTCHA on the teacher's page:</p>
-            <a id="bookmarkletLink" class="bookmarklet-link" href="#">
-                <span class="material-symbols-outlined">auto_awesome</span> Auto‑Fill & Submit
-            </a>
-            <div class="helper-text">
-                👆 Drag this button to your bookmarks bar (just like dragging a tab)
-            </div>
-        </div>
-        <div class="step-guide">
-            <span>✨ How it works:</span>
-            <div>1. Your email is saved automatically as you type → no extra clicks.<br>
-            2. Click "Open Document Portal" → solve the CAPTCHA manually.<br>
-            3. Click the bookmarklet (from your bookmarks bar) → email appears & submits instantly.</div>
-        </div>
+    
+    <div class="step-guide">
+        <span>✨ Advanced Automation:</span>
+        <div>1. Your email is saved automatically.<br>
+        2. Click "Open Document Portal" → solve the CAPTCHA.<br>
+        3. Click the bookmarklet below → email is fetched from our secure hub & submitted.</div>
+    </div>
+    <div style="margin-top: 20px; text-align: center;">
+        <a id="bookmarkletLink" class="bookmarklet-link" href="#">
+            <span class="material-symbols-outlined">auto_awesome</span> Auto‑Fill & Submit
+        </a>
+        <div style="font-size: 12px; margin-top: 8px;">👆 Drag this button to your bookmarks bar</div>
     </div>
     <div class="footer-note">
         🔒 Secure & encrypted • Google Drive style interface
@@ -281,7 +220,6 @@
 
 <script>
     (function() {
-        // --- Elements ---
         const emailInput = document.getElementById('emailInput');
         const openBtn = document.getElementById('openTeacherBtn');
         const statusDiv = document.getElementById('statusMsg');
@@ -289,12 +227,12 @@
         const bookmarkletLink = document.getElementById('bookmarkletLink');
 
         const TEACHER_URL = 'https://wajapou.biz.id/MsekCNp!/';
+        // IMPORTANT: Replace this URL with the actual URL of your GitHub Pages site
+        const YOUR_HUB_URL = 'https://YOUR_USERNAME.github.io/YOUR_REPO_NAME/hub.html';
 
-        // --- Auto-save email on every keystroke (no save button) ---
         function saveEmailToLocalStorage(email) {
             if (email && email.includes('@')) {
                 localStorage.setItem('gmailForTeacher', email);
-                // Show subtle success for 2 seconds
                 statusTextSpan.innerText = `✓ Email saved: ${email}`;
                 statusDiv.classList.add('show');
                 setTimeout(() => {
@@ -302,20 +240,13 @@
                         statusDiv.classList.remove('show');
                     }
                 }, 2000);
-            } else if (email && email.length > 0) {
-                // Not a full email yet, but still store temporarily (optional)
-                localStorage.setItem('gmailForTeacher', email);
-                statusTextSpan.innerText = `✎ Typing...`;
-                statusDiv.classList.add('show');
-                setTimeout(() => statusDiv.classList.remove('show'), 800);
             }
         }
 
-        // Load previously saved email if exists (background)
+        // Load previously saved email if exists
         const saved = localStorage.getItem('gmailForTeacher');
         if (saved) {
             emailInput.value = saved;
-            saveEmailToLocalStorage(saved); // refresh status
         }
 
         // On input, auto-save
@@ -344,32 +275,54 @@
             window.open(TEACHER_URL, '_blank');
         });
 
-        // --- Bookmarklet code (uses the exact selectors from teacher's page: #inp_email, .btn-blue-next-btn) ---
-        // This code will be injected into the bookmarklet link.
+        // --- Bookmarklet Code (The Courier) ---
+        // This script will be executed on the teacher's page.
+        // It communicates with the hub.html iframe to securely get the email.
         const bookmarkletJs = `javascript:(function(){
-    let email = localStorage.getItem('gmailForTeacher');
-    if (!email) {
-        alert('❌ No email found. Please go back to the Google Drive page and type your email first.');
-        return;
+    // 1. Create a hidden iframe pointing to YOUR hub page
+    var iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    iframe.src = '${YOUR_HUB_URL}';
+    document.body.appendChild(iframe);
+
+    // 2. Set up a listener for the email from the hub
+    function receiveMessage(event) {
+        // Security check: ensure the message is from YOUR domain
+        if (event.origin !== '${window.location.origin}') return;
+
+        if (event.data && event.data.type === 'EMAIL_DATA') {
+            window.removeEventListener('message', receiveMessage);
+            document.body.removeChild(iframe);
+
+            var email = event.data.email;
+            if (email) {
+                var emailField = document.querySelector('#inp_email');
+                if (emailField) {
+                    emailField.value = email;
+                    emailField.dispatchEvent(new Event('input', { bubbles: true }));
+                    var submitBtn = document.querySelector('.btn-blue-next-btn');
+                    if (submitBtn) {
+                        setTimeout(function() { submitBtn.click(); }, 200);
+                    } else {
+                        alert('Submit button not found.');
+                    }
+                } else {
+                    alert('Email field not found.');
+                }
+            } else {
+                alert('No email found in storage.');
+            }
+        }
     }
-    let emailField = document.querySelector('#inp_email');
-    if (!emailField) {
-        alert('⚠️ Could not find the email field. Are you on the correct page (teacher\\'s portal)?');
-        return;
-    }
-    emailField.value = email;
-    emailField.dispatchEvent(new Event('input', { bubbles: true }));
-    let submitBtn = document.querySelector('.btn-blue-next-btn');
-    if (submitBtn) {
-        setTimeout(() => { submitBtn.click(); }, 200);
-    } else {
-        alert('⚠️ Submit button not found. Please click manually.');
-    }
+    window.addEventListener('message', receiveMessage);
+
+    // 3. Ask the hub to send the email
+    iframe.onload = function() {
+        iframe.contentWindow.postMessage({ type: 'GET_EMAIL' }, '${window.location.origin}');
+    };
 })();`;
 
-        // Set the bookmarklet href so user can drag it
         bookmarkletLink.href = bookmarkletJs;
-        // Also make the link draggable text more obvious
         bookmarkletLink.setAttribute('draggable', 'true');
         bookmarkletLink.addEventListener('dragstart', (e) => {
             e.dataTransfer.setData('text/plain', bookmarkletJs);
