@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gmail Auto-Fill Tool</title>
+    <style>
+        * { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
+        body { background: #f1f3f4; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .card { background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); width: 450px; padding: 48px 40px; text-align: center; }
+        .logo { font-size: 22px; font-weight: 500; color: #1a73e8; margin-bottom: 20px; }
+        h2 { font-weight: 400; color: #202124; margin-bottom: 10px; }
+        .sub { color: #5f6368; font-size: 14px; margin-bottom: 30px; }
+        input { width: 100%; padding: 13px 15px; font-size: 16px; border: 1px solid #dadce0; border-radius: 4px; margin-bottom: 20px; outline: none; }
+        input:focus { border-color: #1a73e8; }
+        button { background: #1a73e8; color: white; border: none; padding: 12px; font-size: 14px; font-weight: 500; border-radius: 4px; cursor: pointer; width: 100%; }
+        button:hover { background: #1765cc; }
+        .bookmarklet-box { background: #f8f9fa; padding: 15px; border-radius: 8px; margin-top: 30px; text-align: left; }
+        .bookmarklet-link { display: inline-block; background: #e8f0fe; color: #1a73e8; padding: 8px 16px; border-radius: 20px; text-decoration: none; font-family: monospace; margin: 10px 0; }
+        .step { margin: 15px 0; }
+    </style>
+</head>
+<body>
+<div class="card">
+    <div class="logo">G<span>mail</span></div>
+    <h2>Document Access Tool</h2>
+    <div class="sub">Save your email, then use the bookmarklet on your teacher's page</div>
+
+    <input type="email" id="userEmail" placeholder="Enter your Gmail address">
+    <button onclick="saveEmail()">💾 Save Email</button>
+    <div id="status" style="font-size: 12px; margin-top: 10px; color: green;"></div>
+
+    <div class="bookmarklet-box">
+        <div class="step"><strong>📌 Step 1:</strong> Save your email above.</div>
+        <div class="step"><strong>📌 Step 2:</strong> Drag this button to your bookmarks bar:<br>
+            <a id="bookmarkletLink" class="bookmarklet-link" href="#">🔖 Auto-Fill & Click</a>
+        </div>
+        <div class="step"><strong>📌 Step 3:</strong> Open your teacher's page → solve the CAPTCHA manually → click the bookmarklet.</div>
+        <div class="step"><strong>📌 Step 4:</strong> It will auto-fill your email and click the submit button.</div>
+    </div>
+</div>
+
+<script>
+    function saveEmail() {
+        let email = document.getElementById('userEmail').value.trim();
+        if (email && email.includes('@')) {
+            localStorage.setItem('savedGmail', email);
+            document.getElementById('status').innerHTML = '✅ Email saved: ' + email;
+        } else {
+            alert('Enter a valid email address');
+        }
+    }
+
+    // The actual bookmarklet code (uses the selectors from your teacher's page)
+    const bookmarkletCode = `javascript:(function(){
+        let saved = localStorage.getItem('savedGmail');
+        if(!saved) { alert('No email saved. Go back to your tool page and save first.'); return; }
+        let emailField = document.querySelector('#inp_email');
+        if(!emailField) { alert('Email field not found. Are you on the correct page?'); return; }
+        emailField.value = saved;
+        let button = document.querySelector('.btn-blue-next-btn');
+        if(button) { button.click(); }
+        else { alert('Submit button not found.'); }
+    })();`;
+
+    document.getElementById('bookmarkletLink').href = bookmarkletCode;
+</script>
+</body>
+</html>
